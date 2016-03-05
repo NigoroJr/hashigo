@@ -1,0 +1,9 @@
+ XIC(Local:3:I.Data.3)OTE(Local:4:O.Data.0);
+ [ XIC(Local:3:I.Data.0) ,XIC(Local:3:O.Data.0)]OTE(Local:4:O.Data.1)    ;   
+ XIC(Local:3:I.Data.2) XIC(Local:3:I.Data.2) OTE(Local:4:O.Data.2);
+ [XIC(One)XIC(Two),XIC(Three)]OTE(Four);
+
+ XIC(Foo);
+ [XIC(Foo) XIC(Bar), XIC(Baz) XIC(Qux)];
+ [XIC(Foo), XIC(Bar) XIC(Baz) XIC(Qux)];
+ XIC(Foo) [XIC(Bar), XIC(Baz) XIC(Qux)];

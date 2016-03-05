@@ -1,0 +1,32 @@
+sudo: false
+
+language: cpp
+
+compiler:
+    - g++
+    - clang++
+
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
+            - g++-4.8
+            - clang
+            - libboost-test-dev
+
+before_script:
+    - cd build
+    - cmake -DCMAKE_CXX_FLAGS=-std=c++11 ..
+
+script:
+    - make
+    - ctest --verbose
+
+install:
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+
+notifications:
+    email:
+        on_success: never
+        on_failure: change
