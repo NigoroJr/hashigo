@@ -25,5 +25,9 @@ $ make
 $ ./src/hashigo <L5X file>
 ```
 
+## Credits
+- https://github.com/imageworks/OpenShadingLanguage
+  - CMake module for pugixml
+
 ## Authors
 Naoki Mizuno

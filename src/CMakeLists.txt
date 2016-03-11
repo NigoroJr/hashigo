@@ -1,5 +1,9 @@
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
+find_package(PugiXML REQUIRED)
 
 BISON_TARGET(HashigoParser parse.y ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp)
 FLEX_TARGET(HashigoLexer lex.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cpp)

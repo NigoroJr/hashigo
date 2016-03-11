@@ -1,6 +1,7 @@
-sudo: false
-
 language: cpp
+
+dist: trusty
+sudo: required
 
 compiler:
     - g++
@@ -14,6 +15,7 @@ addons:
             - g++-4.8
             - clang
             - libboost-test-dev
+            - libpugixml-dev
 
 before_script:
     - cd build
