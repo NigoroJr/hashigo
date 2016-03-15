@@ -3,6 +3,7 @@
 
 #include "Node.hpp"
 #include "NRung.hpp"
+#include "Visitor.h"
 
 #include <vector>
 
@@ -10,7 +11,7 @@
  * The entry point of the AST. Since all the rungs are attached to this node,
  * there is no rung count.
  */
-struct NRoot : Node {
+struct NRoot : public Node {
     /* Constructors, Destructor, and Assignment operators {{{ */
     // Default constructor
     NRoot();
@@ -32,6 +33,9 @@ struct NRoot : Node {
     NRoot&
     operator=(NRoot&& other);
     /* }}} */
+
+    Visitor&
+    traverse(Visitor& visitor) const override;
 
     std::vector<NRung*> rungs;
 };
@@ -78,5 +82,12 @@ NRoot::operator=(NRoot&& other) {
     return *this;
 }
 /* }}} */
+
+inline Visitor&
+NRoot::traverse(Visitor& visitor) const {
+    // TODO: Implement me!
+
+    return visitor;
+}
 
 #endif /* end of include guard */

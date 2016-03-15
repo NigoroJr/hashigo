@@ -1,7 +1,11 @@
 #ifndef NODE_HPP_
 #define NODE_HPP_
 
+#include "Visitor.h"
+
+#include <stdexcept>
 #include <utility>
+#include <string>
 
 /**
  * Base class for all the nodes in the Abstract Syntax Tree.
@@ -30,6 +34,9 @@ struct Node {
     Node&
     operator=(Node&& other);
     /* }}} */
+
+    virtual Visitor&
+    traverse(Visitor& visitor) const;
 
     unsigned rung_count;
 };
@@ -68,7 +75,6 @@ Node::~Node()
 {
 }
 
-#include <iostream>
 // Assignment operator
 inline Node&
 Node::operator=(const Node& other) {
@@ -83,5 +89,12 @@ Node::operator=(Node&& other) {
     return *this;
 }
 /* }}} */
+
+inline Visitor&
+Node::traverse(Visitor& visitor) const {
+    throw std::runtime_error{"Sorry, uninplemented"};
+
+    return visitor;
+}
 
 #endif /* end of include guard */
