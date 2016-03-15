@@ -40,32 +40,37 @@ inline
 NRung::NRung()
     : Node{0}
     , block{nullptr}
-{ }
+{
+}
 
 inline
 NRung::NRung(const NBlockish* b, const unsigned rung_count)
     : Node{rung_count}
     , block{const_cast<NBlockish*>(b)}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NRung::NRung(const NRung& other)
     : Node{other}
     , block{other.block}
-{ }
+{
+}
 
 // Move constructor
 inline
 NRung::NRung(NRung&& other)
     : Node{std::move(other)}
     , block{std::move(other.block)}
-{ }
+{
+}
 
 // Destructor
 inline
 NRung::~NRung()
-{ }
+{
+}
 
 // Assignment operator
 inline NRung&

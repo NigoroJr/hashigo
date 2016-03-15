@@ -39,29 +39,34 @@ struct Node {
 inline
 Node::Node()
     : rung_count{0}
-{ }
+{
+}
 
 inline
 Node::Node(const unsigned rung_count)
     : rung_count{rung_count}
-{ }
+{
+}
 
 // Copy constructor
 inline
 Node::Node(const Node& other)
     : rung_count{other.rung_count}
-{ }
+{
+}
 
 // Move constructor
 inline
 Node::Node(Node&& other)
     : rung_count{std::move(other.rung_count)}
-{ }
+{
+}
 
 // Destructor
 inline
 Node::~Node()
-{ }
+{
+}
 
 #include <iostream>
 // Assignment operator

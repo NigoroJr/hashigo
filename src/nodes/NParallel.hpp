@@ -39,32 +39,37 @@ inline
 NParallel::NParallel()
     : NBlockish{0}
     , blocks{std::vector<NBlockish*>{}}
-{ }
+{
+}
 
 inline
 NParallel::NParallel(const unsigned rung_count)
     : NBlockish{rung_count}
     , blocks{std::vector<NBlockish*>{}}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NParallel::NParallel(const NParallel& other)
     : NBlockish{other}
     , blocks{other.blocks}
-{ }
+{
+}
 
 // Move constructor
 inline
 NParallel::NParallel(NParallel&& other)
      : NBlockish{std::move(other)}
      , blocks{std::move(other.blocks)}
-{ }
+{
+}
 
 // Destructor
 inline
 NParallel::~NParallel()
-{ }
+{
+}
 
 // Assignment operator
 inline NParallel&

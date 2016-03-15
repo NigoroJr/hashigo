@@ -41,24 +41,28 @@ struct NRoot : Node {
 inline
 NRoot::NRoot()
     : Node{}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NRoot::NRoot(const NRoot& other)
     : Node{other}
-{ }
+{
+}
 
 // Move constructor
 inline
 NRoot::NRoot(NRoot&& other)
     : Node{std::move(other)}
-{ }
+{
+}
 
 // Destructor
 inline
 NRoot::~NRoot()
-{ }
+{
+}
 
 // Assignment operator
 inline NRoot&

@@ -13,21 +13,25 @@ const char Outputter::PATH_SEP =
 // Default constructor
 Outputter::Outputter()
     :  out_verilog{}
-{ }
+{
+}
 
 // Copy constructor
 Outputter::Outputter(const Outputter& other)
     : out_verilog{other.out_verilog}
-{ }
+{
+}
 
 // Move constructor
 Outputter::Outputter(Outputter&& other)
     : out_verilog{std::move(other.out_verilog)}
-{ }
+{
+}
 
 // Destructor
 Outputter::~Outputter()
-{ }
+{
+}
 
 // Assignment operator
 Outputter&
