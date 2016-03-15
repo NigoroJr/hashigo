@@ -1,4 +1,5 @@
 #include "nodes.hpp"
+#include "Outputter.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -25,6 +26,12 @@ main(const int argc, char* const argv[]) {
     yyparse();
 
     std::cout << root << std::endl;
+
+    Outputter o;
+    o.append("program_name", "CarWash");
+    o.append("rungs", "0: begin\n    foo = bar;\nend");
+    o.append("rungs", "1: begin\n    baz = qux;\nend");
+    o.finilize(argv[2], "foo.v");
 
     return 0;
 }
