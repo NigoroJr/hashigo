@@ -3,7 +3,9 @@
 
 #include "Node.hpp"
 #include "NRung.hpp"
-#include "Visitor.h"
+#include "SymTable.h"
+#include "Outputter.h"
+
 
 #include <vector>
 
@@ -34,8 +36,15 @@ struct NRoot : public Node {
     operator=(NRoot&& other);
     /* }}} */
 
-    Visitor&
-    traverse(Visitor& visitor) const override;
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const override;
+
+    virtual Outputter&
+    to_verilog(Outputter& outputter) const override;
+
+    virtual Outputter&
+    to_dot(Outputter& outputter) const override;
+
 
     std::vector<NRung*> rungs;
 };
@@ -83,11 +92,22 @@ NRoot::operator=(NRoot&& other) {
 }
 /* }}} */
 
-inline Visitor&
-NRoot::traverse(Visitor& visitor) const {
+inline SymTable&
+NRoot::populate_symtable(SymTable& symtable) const {
     // TODO: Implement me!
+    return symtable;
+}
 
-    return visitor;
+inline Outputter&
+NRoot::to_verilog(Outputter& outputter) const {
+    // TODO: Implement me!
+    return outputter;
+}
+
+inline Outputter&
+NRoot::to_dot(Outputter& outputter) const {
+    // TODO: Implement me!
+    return outputter;
 }
 
 #endif /* end of include guard */

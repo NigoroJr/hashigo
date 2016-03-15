@@ -1,30 +1,21 @@
 #include "Outputter.h"
 
-const std::string Outputter::TEMPLATE_FN = "Main.v";
-
-const char Outputter::PATH_SEP =
-#ifdef _WIN32
-    '\\';
-#else
-    '/';
-#endif
-
 /* Constructors, Destructor, and Assignment operators {{{ */
 // Default constructor
 Outputter::Outputter()
-    :  out_verilog{}
+    :  tags{}
 {
 }
 
 // Copy constructor
 Outputter::Outputter(const Outputter& other)
-    : out_verilog{other.out_verilog}
+    : tags{other.tags}
 {
 }
 
 // Move constructor
 Outputter::Outputter(Outputter&& other)
-    : out_verilog{std::move(other.out_verilog)}
+    : tags{std::move(other.tags)}
 {
 }
 
@@ -36,14 +27,14 @@ Outputter::~Outputter()
 // Assignment operator
 Outputter&
 Outputter::operator=(const Outputter& other) {
-    out_verilog = other.out_verilog;
+    tags = other.tags;
     return *this;
 }
 
 // Move assignment operator
 Outputter&
 Outputter::operator=(Outputter&& other) {
-    out_verilog = std::move(other.out_verilog);
+    tags = std::move(other.tags);
     return *this;
 }
 /* }}} */
@@ -61,26 +52,26 @@ Outputter::append(const std::string& tag, const std::string& val) {
 }
 
 void
-Outputter::finilize(const std::string& templ_dir, const std::string& out_fn) {
+Outputter::finilize(const std::string& templ_path, const std::string& out_fn) {
     std::ofstream ofs{out_fn};
 
     if (!ofs.good()) {
         throw std::runtime_error{"Couldn't open output file: " + out_fn};
     }
 
-    finilize(templ_dir, ofs);
+    finilize(templ_path, ofs);
 }
 
 void
-Outputter::finilize(const std::string& templ_dir, std::ostream& os) {
+Outputter::finilize(const std::string& templ_path, std::ostream& os) {
     // Read in the template
-    const std::string path = templ_dir + PATH_SEP + TEMPLATE_FN;
-    std::ifstream ifs{path};
+    std::ifstream ifs{templ_path};
 
     if (!ifs.good()) {
-        throw std::runtime_error{"Couldn't open template file: " + path};
+        throw std::runtime_error{"Couldn't open template file: " + templ_path};
     }
 
+    std::string out_verilog;
     std::istreambuf_iterator<char> isit{ifs}, dummy;
     // Note: This can be slow on a large input file
     std::copy(isit, dummy, std::back_inserter(out_verilog));

@@ -1,7 +1,8 @@
 #ifndef NODE_HPP_
 #define NODE_HPP_
 
-#include "Visitor.h"
+#include "SymTable.h"
+#include "Outputter.h"
 
 #include <stdexcept>
 #include <utility>
@@ -35,8 +36,14 @@ struct Node {
     operator=(Node&& other);
     /* }}} */
 
-    virtual Visitor&
-    traverse(Visitor& visitor) const;
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const;
+
+    virtual Outputter&
+    to_verilog(Outputter& outputter) const;
+
+    virtual Outputter&
+    to_dot(Outputter& outputter) const;
 
     unsigned rung_count;
 };
@@ -90,11 +97,22 @@ Node::operator=(Node&& other) {
 }
 /* }}} */
 
-inline Visitor&
-Node::traverse(Visitor& visitor) const {
+inline SymTable&
+Node::populate_symtable(SymTable& symtable) const {
     throw std::runtime_error{"Sorry, uninplemented"};
+    return symtable;
+}
 
-    return visitor;
+inline Outputter&
+Node::to_verilog(Outputter& outputter) const {
+    throw std::runtime_error{"Sorry, uninplemented"};
+    return outputter;
+}
+
+inline Outputter&
+Node::to_dot(Outputter& outputter) const {
+    throw std::runtime_error{"Sorry, uninplemented"};
+    return outputter;
 }
 
 #endif /* end of include guard */
