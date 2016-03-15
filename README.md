@@ -13,6 +13,9 @@ TODO
 ### Requirements
 - C++ compiler that supports C++11
 - CMake 2.8 or above
+- pugixml
+- bison
+- flex
 
 ### Testing
 - Boost.Test
@@ -26,6 +29,7 @@ $ ./src/hashigo <L5X file>
 ```
 
 ## Credits
+- All the packages that this program depends on
 - https://github.com/imageworks/OpenShadingLanguage
   - CMake module for pugixml
 
