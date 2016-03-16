@@ -17,7 +17,7 @@ extern "C" int yylex();
 %%
 [ \t\n]             ;
 [A-Z]+              SAVE_TOKEN; return T_INSTRUCTION;
-[a-zA-Z0-9_:.-]+    SAVE_TOKEN; return T_ADDRESS;
+[a-zA-Z0-9_:.-]+|\? SAVE_TOKEN; return T_ADDRESS;
 
 "("                 return TOKEN(T_LPAREN);
 ")"                 return TOKEN(T_RPAREN);
