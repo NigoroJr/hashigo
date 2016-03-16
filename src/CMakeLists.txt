@@ -11,9 +11,11 @@ ADD_FLEX_BISON_DEPENDENCY(HashigoLexer HashigoParser)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(SymTable SHARED ${CMAKE_CURRENT_SOURCE_DIR}/SymTable.cpp)
 add_library(Outputter SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Outputter.cpp)
 
 add_executable(hashigo main.cpp
+    SymTable
     Outputter
     ${BISON_HashigoParser_OUTPUTS}
     ${FLEX_HashigoLexer_OUTPUTS})

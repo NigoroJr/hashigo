@@ -38,29 +38,34 @@ struct NBlockish : public Node {
 inline
 NBlockish::NBlockish()
     : Node{}
-{ }
+{
+}
 
 inline
 NBlockish::NBlockish(const unsigned rung_count)
     : Node{rung_count}
-{ }
+{
+}
 
 inline
 // Copy constructor
 NBlockish::NBlockish(const NBlockish& other)
     : Node{other}
-{ }
+{
+}
 
 // Move constructor
 inline
 NBlockish::NBlockish(NBlockish&& other)
     : Node{std::move(other)}
-{ }
+{
+}
 
 // Destructor
 inline
 NBlockish::~NBlockish()
-{ }
+{
+}
 
 // Assignment operator
 inline NBlockish&

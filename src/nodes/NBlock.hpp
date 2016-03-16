@@ -45,7 +45,8 @@ NBlock::NBlock()
     : NBlockish{0}
     , inst{nullptr}
     , addresses{nullptr}
-{ }
+{
+}
 
 inline
 NBlock::NBlock(const NInstruction* inst,
@@ -54,7 +55,8 @@ NBlock::NBlock(const NInstruction* inst,
     : NBlockish{rung_count}
     , inst{const_cast<NInstruction*>(inst)}
     , addresses{addresses}
-{ }
+{
+}
 
 // Copy constructor
 inline
@@ -62,7 +64,8 @@ NBlock::NBlock(const NBlock& other)
     : NBlockish{other}
     , inst{other.inst}
     , addresses{other.addresses}
-{ }
+{
+}
 
 // Move constructor
 inline
@@ -70,12 +73,14 @@ NBlock::NBlock(NBlock&& other)
     : NBlockish{std::move(other)}
     , inst{std::move(other.inst)}
     , addresses{std::move(other.addresses)}
-{ }
+{
+}
 
 // Destructor
 inline
 NBlock::~NBlock()
-{ }
+{
+}
 
 // Assignment operator
 inline NBlock&

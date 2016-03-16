@@ -37,32 +37,37 @@ inline
 NSegment::NSegment()
     : NBlockish{0}
     , block{nullptr}
-{ }
+{
+}
 
 inline
 NSegment::NSegment(const NBlockish* b, const unsigned rung_count)
     : NBlockish{rung_count}
     , block{const_cast<NBlockish*>(b)}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NSegment::NSegment(const NSegment& other)
     : NBlockish{other}
     , block{other.block}
-{ }
+{
+}
 
 // Move constructor
 inline
 NSegment::NSegment(NSegment&& other)
     : NBlockish{std::move(other)}
     , block{std::move(other.block)}
-{ }
+{
+}
 
 // Destructor
 inline
 NSegment::~NSegment()
-{ }
+{
+}
 
 // Assignment operator
 inline NSegment&

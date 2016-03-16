@@ -39,32 +39,37 @@ inline
 NSequence::NSequence()
     : NBlockish{0}
     , blocks{std::vector<NBlockish*>{}}
-{ }
+{
+}
 
 inline
 NSequence::NSequence(const unsigned rung_count)
     : NBlockish{rung_count}
     , blocks{std::vector<NBlockish*>{}}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NSequence::NSequence(const NSequence& other)
     : NBlockish{other.rung_count}
     , blocks{other.blocks}
-{ }
+{
+}
 
 // Move constructor
 inline
 NSequence::NSequence(NSequence&& other)
      : NBlockish{std::move(other)}
      , blocks{std::move(other.blocks)}
-{ }
+{
+}
 
 // Destructor
 inline
 NSequence::~NSequence()
-{ }
+{
+}
 
 // Assignment operator
 inline NSequence&

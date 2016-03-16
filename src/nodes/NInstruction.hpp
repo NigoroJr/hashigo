@@ -39,32 +39,37 @@ inline
 NInstruction::NInstruction()
     : Node{0}
     , name{}
-{ }
+{
+}
 
 inline
 NInstruction::NInstruction(const std::string& name, const unsigned rung_count)
     : Node{rung_count}
     , name{name}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NInstruction::NInstruction(const NInstruction& other)
     : Node{other}
     , name{other.name}
-{ }
+{
+}
 
 // Move constructor
 inline
 NInstruction::NInstruction(NInstruction&& other)
     : Node{std::move(other)}
     , name{std::move(other.name)}
-{ }
+{
+}
 
 // Destructor
 inline
 NInstruction::~NInstruction()
-{ }
+{
+}
 
 // Assignment operator
 inline NInstruction&
