@@ -1,0 +1,10 @@
+[XIC(Local:3:I.Data.0) ,XIC(Output.0) ]XIO(Input.1)OTE(Output.0);
+[XIC(Output.0) ONS(Storage.0) ,XIC(Local:3:I.Data.2) ,EQU(StepCounter,3)]MOV(0,StepCounter);
+XIC(Output.0)EQU(StepCounter,0)OTE(State.0);
+EQU(StepCounter,1)OTE(State.1);
+EQU(StepCounter,2)OTE(State.2);
+XIC(State.0)TON(Timer_1,?,?)OTE(Data.0);
+XIC(State.1)TON(Timer_2,?,?)[OTE(Data.1) ,OTE(Output.2) ];
+[XIC(Data.0) ,XIC(Data.1) ]OTE(Output.1);
+XIC(State.2)TON(Timer_3,?,?)OTE(Output.3);
+[XIC(Timer_1.DN) ,XIC(Timer_2.DN) ,XIC(Timer_3.DN) ]ADD(StepCounter,1,StepCounter);
