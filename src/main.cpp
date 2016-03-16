@@ -12,15 +12,35 @@ extern int yyparse();
 extern "C" FILE* yyin;
 extern std::shared_ptr<NRoot> root;
 
+std::string
+get_basename(const std::string& path) {
+    char path_sep =
+#ifdef _WIN32
+        '\\';
+#else
+        '/';
+#endif
+
+    auto pos = path.rfind(path_sep);
+
+    if (pos == std::string::npos) {
+        return path;
+    }
+
+    return path.substr(pos + 1);
+}
+
 std::tuple<std::string, std::string>
-get_extension(const std::string& whole_filename) {
+get_extension(const std::string& path) {
+    std::string basename = get_basename(path);
+
     std::string filename = "";
     std::string ext = "";
 
-    auto pos = whole_filename.find('.');
+    auto pos = basename.find('.');
     if (pos != std::string::npos) {
-        filename = whole_filename.substr(0, pos - 1);
-        ext = whole_filename.substr(pos + 1);
+        filename = basename.substr(0, pos);
+        ext = basename.substr(pos + 1);
 
         std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
     }
@@ -51,7 +71,7 @@ main(const int argc, char* const argv[]) {
         }
     }
 
-    // yyparse();
+    yyparse();
 
     SymTable s;
     root->populate_symtable(s);
