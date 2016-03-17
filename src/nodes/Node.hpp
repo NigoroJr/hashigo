@@ -99,19 +99,19 @@ Node::operator=(Node&& other) {
 
 inline SymTable&
 Node::populate_symtable(SymTable& symtable) const {
-    throw std::runtime_error{"Sorry, uninplemented"};
+    throw std::runtime_error{"Sorry, unimplemented"};
     return symtable;
 }
 
 inline Outputter&
 Node::to_verilog(Outputter& outputter) const {
-    throw std::runtime_error{"Sorry, uninplemented"};
+    throw std::runtime_error{"Sorry, unimplemented"};
     return outputter;
 }
 
 inline Outputter&
 Node::to_dot(Outputter& outputter) const {
-    throw std::runtime_error{"Sorry, uninplemented"};
+    throw std::runtime_error{"Sorry, unimplemented"};
     return outputter;
 }
 
