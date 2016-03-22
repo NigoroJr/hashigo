@@ -4,6 +4,7 @@
 #include "NBlockish.hpp"
 #include "NInstruction.hpp"
 #include "NAddress.hpp"
+#include "SymTable.h"
 
 #include <vector>
 
@@ -33,6 +34,9 @@ struct NBlock : public NBlockish {
     NBlock&
     operator=(NBlock&& other);
     /* }}} */
+
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const override;
 
     NInstruction* inst;
     std::vector<NAddress*> addresses;
@@ -100,5 +104,29 @@ NBlock::operator=(NBlock&& other) {
     return *this;
 }
 /* }}} */
+
+inline SymTable&
+NBlock::populate_symtable(SymTable& symtable) const {
+    for (unsigned i = 0; i < addresses.size(); i++) {
+        // Check for output address indices
+        auto type = (SymTable::OUTPUT_ADDRS.count(inst->name) != 0
+                     && SymTable::OUTPUT_ADDRS.at(inst->name).count(i) != 0)
+            ? SymTable::IOType::OUT
+            : SymTable::IOType::IN;
+
+        auto address_name = addresses[i]->name;
+        // Note: The append method handles changing the pin type
+        symtable[address_name].append(rung_count, type);
+        // TODO: adjust bus width according to constants used?
+    }
+
+    // TODO: intermediate wires??? should this be in the symtable? (like the ones used for timers)
+    // TODO: Master (for master, maybe add a MASTER instruction
+    if (inst->name == "TON" || inst->name == "TOF") {
+        // We need intermediate pins for Verilog
+    }
+
+    return symtable;
+}
 
 #endif /* end of include guard */

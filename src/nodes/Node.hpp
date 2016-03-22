@@ -100,7 +100,8 @@ Node::operator=(Node&& other) {
 inline SymTable&
 Node::populate_symtable(SymTable& symtable) const {
     throw std::runtime_error{"Sorry, unimplemented"};
-    return symtable;
+
+    ignore_unused_warnings(symtable);
 }
 
 inline Outputter&
@@ -113,6 +114,12 @@ inline Outputter&
 Node::to_dot(Outputter& outputter) const {
     throw std::runtime_error{"Sorry, unimplemented"};
     return outputter;
+}
+
+template<typename T>
+inline void
+Node::ignore_unused_warnings(const T&) const {
+    // Do nothing. Just shuts up the compiler
 }
 
 #endif /* end of include guard */

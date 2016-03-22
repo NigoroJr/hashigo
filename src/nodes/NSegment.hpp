@@ -2,6 +2,7 @@
 #define NSEGMENT_HPP_
 
 #include "NBlockish.hpp"
+#include "SymTable.h"
 
 struct NSegment : public NBlockish {
     /* Constructors, Destructor, and Assignment operators {{{ */
@@ -27,6 +28,9 @@ struct NSegment : public NBlockish {
     NSegment&
     operator=(NSegment&& other);
     /* }}} */
+
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const override;
 
     NBlockish* block;
 };
@@ -85,5 +89,10 @@ NSegment::operator=(NSegment&& other) {
     return *this;
 }
 /* }}} */
+
+inline SymTable&
+NSegment::populate_symtable(SymTable& symtable) const {
+    return block->populate_symtable(symtable);
+}
 
 #endif /* end of include guard */

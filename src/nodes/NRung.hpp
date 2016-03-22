@@ -3,6 +3,7 @@
 
 #include "Node.hpp"
 #include "NBlockish.hpp"
+#include "SymTable.h"
 
 #include <utility>
 
@@ -30,6 +31,9 @@ struct NRung : public Node {
     NRung&
     operator=(NRung&& other);
     /* }}} */
+
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const override;
 
     NBlockish* block;
 };
@@ -88,5 +92,10 @@ NRung::operator=(NRung&& other) {
     return *this;
 }
 /* }}} */
+
+inline SymTable&
+NRung::populate_symtable(SymTable& symtable) const {
+    return block->populate_symtable(symtable);
+}
 
 #endif /* end of include guard */

@@ -94,7 +94,9 @@ NRoot::operator=(NRoot&& other) {
 
 inline SymTable&
 NRoot::populate_symtable(SymTable& symtable) const {
-    // TODO: Implement me!
+    for (auto& rung : rungs) {
+        rung->populate_symtable(symtable);
+    }
     return symtable;
 }
 

@@ -2,6 +2,7 @@
 #define NPARALLEL_HPP_
 
 #include "NBlockish.hpp"
+#include "SymTable.h"
 
 #include <vector>
 
@@ -29,6 +30,9 @@ struct NParallel : public NBlockish {
     NParallel&
     operator=(NParallel&& other);
     /* }}} */
+
+    virtual SymTable&
+    populate_symtable(SymTable& symtable) const override;
 
     std::vector<NBlockish*> blocks;
 };
@@ -87,5 +91,13 @@ NParallel::operator=(NParallel&& other) {
     return *this;
 }
 /* }}} */
+
+inline SymTable&
+NParallel::populate_symtable(SymTable& symtable) const {
+    for (auto& block : blocks) {
+        block->populate_symtable(symtable);
+    }
+    return symtable;
+}
 
 #endif /* end of include guard */
