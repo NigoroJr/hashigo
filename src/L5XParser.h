@@ -74,7 +74,7 @@ public:
     std::ostream&
     to_hshg(std::ostream& os) const;
 
-// private:
+private:
     /**
      * Parses the basic rung structures.
      * The basic rung structure is the sequence of instructions followed by
