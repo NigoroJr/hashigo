@@ -11,11 +11,15 @@ ADD_FLEX_BISON_DEPENDENCY(HashigoLexer HashigoParser)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(L5XParser SHARED ${CMAKE_CURRENT_SOURCE_DIR}/L5XParser.cpp)
 add_library(SymTable SHARED ${CMAKE_CURRENT_SOURCE_DIR}/SymTable.cpp)
 add_library(Outputter SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Outputter.cpp)
 
 add_executable(hashigo main.cpp
+    L5XParser
     SymTable
     Outputter
     ${BISON_HashigoParser_OUTPUTS}
     ${FLEX_HashigoLexer_OUTPUTS})
+
+target_link_libraries(hashigo ${PUGIXML_LIBRARIES})
