@@ -1,5 +1,6 @@
 #include "nodes.hpp"
 #include "Outputter.h"
+#include "L5XParser.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -48,26 +49,39 @@ get_extension(const std::string& path) {
     return std::make_tuple(filename, ext);
 }
 
+std::FILE*
+open_hshg(const std::string& filepath) {
+    std::FILE* in_file = std::fopen(filepath.c_str(), "r");
+
+    if (!in_file) {
+        std::cerr << "Couldn't open " << filepath << std::endl;
+        std::exit(1);
+    }
+
+    return in_file;
+}
+
 int
 main(const int argc, char* const argv[]) {
     yyin = stdin;
+
+    std::string filepath{argv[1]};
 
     std::string filename, ext;
     if (argc >= 1) {
         std::tie(filename, ext) = get_extension(argv[1]);
 
         if (ext == "hshg") {
-            FILE* in_file = fopen(argv[1], "r");
-
-            if (!in_file) {
-                std::cerr << "Couldn't open " << argv[1] << std::endl;
-                return 1;
-            }
-
-            yyin = in_file;
+            yyin = open_hshg(filepath);
         }
         else if (ext == "l5x") {
-            // TODO: parse l5x file and pipe it into the parser
+            filepath = filename + ".hshg";
+
+            L5XParser parser{argv[1]};
+            parser.parse();
+            parser.to_hshg(filepath);
+
+            yyin = open_hshg(filepath);
         }
     }
 
@@ -86,5 +100,6 @@ main(const int argc, char* const argv[]) {
     root->to_dot(dot_outputter);
     dot_outputter.finilize(std::string{argv[2]} + "/dot/ast.dot", "foo.dot");
 
+    std::fclose(yyin);
     return 0;
 }

@@ -12,7 +12,11 @@
     unsigned rung_count = 0;
 
     void yyerror(const char* s) {
-        fprintf(stderr, "Error at rung %d: %s\n", rung_count, s);
+        fprintf(stderr,
+                "Error at rung %d: %s\n",
+                rung_count,
+                s);
+        std::exit(1);
     }
 %}
 
@@ -27,13 +31,15 @@
     NAddress* address;
     std::vector<NAddress*>* address_vec;
 
+    int integer;
     std::string* string;
     int token;
 }
 
 %token <string> T_INSTRUCTION T_ADDRESS
+%token <integer> T_INTEGER
 %token <token> T_LPAREN T_RPAREN T_LBRACKET T_RBRACKET
-%token <token> T_COMMA T_SEMICOLON
+%token <token> T_COMMA T_SEMICOLON T_COLON
 
 %type <rung> rung
 %type <blockish> blockish
@@ -67,6 +73,12 @@ rungs       : rungs rung
 rung        : blockish T_SEMICOLON
                 {
                     $$ = new NRung($1, rung_count);
+                    rung_count++;
+                }
+            | T_INTEGER T_COLON blockish T_SEMICOLON
+                {
+                    rung_count = static_cast<unsigned>($1);
+                    $$ = new NRung($3, rung_count);
                     rung_count++;
                 }
             ;
@@ -228,6 +240,12 @@ address     : T_ADDRESS
                     $$ = new NAddress(*$1, rung_count);
                     delete $1;
                 }
+            | T_INTEGER
+                {
+                    // TODO: How to handle constant integers?
+                    $$ = new NAddress(std::to_string($1), rung_count);
+                }
+            ;
 
 sep         : T_COMMA
             ;
