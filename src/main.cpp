@@ -49,6 +49,18 @@ get_extension(const std::string& path) {
     return std::make_tuple(filename, ext);
 }
 
+std::FILE*
+open_hshg(const std::string& filepath) {
+    std::FILE* in_file = std::fopen(filepath.c_str(), "r");
+
+    if (!in_file) {
+        std::cerr << "Couldn't open " << filepath << std::endl;
+        std::exit(1);
+    }
+
+    return in_file;
+}
+
 int
 main(const int argc, char* const argv[]) {
     yyin = stdin;
@@ -60,14 +72,7 @@ main(const int argc, char* const argv[]) {
         std::tie(filename, ext) = get_extension(argv[1]);
 
         if (ext == "hshg") {
-            FILE* in_file = fopen(filepath.c_str(), "r");
-
-            if (!in_file) {
-                std::cerr << "Couldn't open " << filepath << std::endl;
-                return 1;
-            }
-
-            yyin = in_file;
+            yyin = open_hshg(filepath);
         }
         else if (ext == "l5x") {
             filepath = filename + ".hshg";
@@ -76,14 +81,7 @@ main(const int argc, char* const argv[]) {
             parser.parse();
             parser.to_hshg(filepath);
 
-            FILE* in_file = fopen(filepath.c_str(), "r");
-
-            if (!in_file) {
-                std::cerr << "Couldn't open " << filepath << std::endl;
-                return 1;
-            }
-
-            yyin = in_file;
+            yyin = open_hshg(filepath);
         }
     }
 
@@ -102,5 +100,6 @@ main(const int argc, char* const argv[]) {
     root->to_dot(dot_outputter);
     dot_outputter.finilize(std::string{argv[2]} + "/dot/ast.dot", "foo.dot");
 
+    std::fclose(yyin);
     return 0;
 }
