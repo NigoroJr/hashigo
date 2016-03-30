@@ -1,9 +1,14 @@
 #ifndef SYMTABLE_H_
 #define SYMTABLE_H_
 
+#include <algorithm>
 #include <cctype>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
+
+// Prevent circular inclusion
+struct NAddress;
 
 class SymTable {
 public:
@@ -90,15 +95,11 @@ public:
         std::unordered_set<unsigned> rungs;
     };
 
-    /**
-     * List of instructions that are outputs.
-     * Key: instruction name (e.g. MOV)
-     * Val: 0-based indices of the address that are outputs (e.g. 1)
-     */
-    static const std::unordered_map<
-        std::string,
-        std::unordered_set<unsigned>
-    > OUTPUT_ADDRS;
+
+public:
+    using symtable_t = std::unordered_map<std::string, SymTable::Entry>;
+    using iterator = typename symtable_t::iterator;
+    using const_iterator = typename symtable_t::const_iterator;
 
     /* Constructors, Destructor, and Assignment operators {{{ */
     // Default constructor
@@ -123,7 +124,13 @@ public:
     /* }}} */
 
     Entry&
+    operator[](const NAddress* address);
+
+    Entry&
     operator[](const std::string& address);
+
+    const Entry&
+    operator[](const NAddress* address) const;
 
     const Entry&
     operator[](const std::string& address) const;
@@ -134,6 +141,20 @@ public:
     bool
     exists(const std::string& address) const;
 
+    /* Iterators */
+
+    const_iterator
+    begin() const;
+
+    const_iterator
+    end() const;
+
+    iterator
+    begin();
+
+    iterator
+    end();
+
 private:
     /**
      * Normalizes the address name so that it is a valid Verilog variable
@@ -143,7 +164,30 @@ private:
     std::string
     normalize_name(const std::string& orig) const;
 
-    std::unordered_map<std::string, SymTable::Entry> symtable;
+    symtable_t symtable;
 };
+
+using iterator = typename SymTable::iterator;
+using const_iterator = typename SymTable::const_iterator;
+
+inline const_iterator
+SymTable::begin() const {
+    return symtable.begin();
+}
+
+inline const_iterator
+SymTable::end() const {
+    return symtable.end();
+}
+
+inline iterator
+SymTable::begin() {
+    return symtable.begin();
+}
+
+inline iterator
+SymTable::end() {
+    return symtable.end();
+}
 
 #endif /* end of include guard */

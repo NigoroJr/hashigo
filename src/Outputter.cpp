@@ -85,8 +85,12 @@ Outputter::finilize(const std::string& templ_path, std::ostream& os) {
         std::tie(tag, vals) = p;
 
         // Join each value of tag with a newline character
-        for (const auto& v : vals) {
-            ss << v << std::endl;
+        for (unsigned i = 0; i < vals.size(); i++) {
+            ss << vals[i];
+
+            if (i != vals.size() - 1) {
+                ss << std::endl;
+            }
         }
 
         ss.flush();

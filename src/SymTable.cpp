@@ -1,15 +1,6 @@
 #include "SymTable.h"
 
-const std::unordered_map<
-    std::string,
-    std::unordered_set<unsigned>
-> SymTable::OUTPUT_ADDRS ={
-    {"ADD", {2}},
-    {"MOV", {1}},
-    {"OTE", {0}},
-    {"TOF", {5}},   // The .DN address
-    {"TON", {5}},   // The .DN address
-};
+#include "nodes/NAddress.hpp"
 
 /* Constructors, Destructor, and Assignment operators {{{ */
 // Default constructor
@@ -139,6 +130,11 @@ SymTable::operator=(SymTable&& other) {
 /* }}} */
 
 SymTable::Entry&
+SymTable::operator[](const NAddress* address) {
+    return operator[](address->name);
+}
+
+SymTable::Entry&
 SymTable::operator[](const std::string& address) {
     if (symtable.count(address) != 0) {
         return symtable[address];
@@ -152,6 +148,11 @@ SymTable::operator[](const std::string& address) {
         SymTable::IOType::IN
     };
     return symtable[address];
+}
+
+const SymTable::Entry&
+SymTable::operator[](const NAddress* address) const {
+    return operator[](address->name);
 }
 
 const SymTable::Entry&
@@ -173,6 +174,8 @@ SymTable::normalize_name(const std::string& orig) const {
             c = '_';
         }
     }
+
+    std::transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
 
     return ret;
 }

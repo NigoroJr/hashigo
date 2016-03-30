@@ -6,7 +6,8 @@
 #include "SymTable.h"
 #include "Outputter.h"
 
-
+#include <cstdio>
+#include <string>
 #include <vector>
 
 /**
@@ -39,12 +40,11 @@ struct NRoot : public Node {
     virtual SymTable&
     populate_symtable(SymTable& symtable) const override;
 
-    virtual Outputter&
-    to_verilog(Outputter& outputter) const override;
+    void
+    to_verilog(Outputter& outputter, const SymTable& symtable) const;
 
-    virtual Outputter&
-    to_dot(Outputter& outputter) const override;
-
+    virtual std::string
+    to_dot(Outputter& outputter, const SymTable& symtable) const override;
 
     std::vector<NRung*> rungs;
 };
@@ -100,16 +100,60 @@ NRoot::populate_symtable(SymTable& symtable) const {
     return symtable;
 }
 
-inline Outputter&
-NRoot::to_verilog(Outputter& outputter) const {
-    // TODO: Implement me!
-    return outputter;
+inline void
+NRoot::to_verilog(Outputter& outputter, const SymTable& symtable) const {
+    outputter.append("num_rungs", std::to_string(rungs.size()));
+
+    char buf[512];
+    for (auto& rung : rungs) {
+        std::sprintf(buf, "%d: begin", rung->rung_count);
+        outputter.append("rungs", buf);
+
+        // Let the rung append its expression
+        rung->to_verilog(outputter, symtable);
+
+        outputter.append("rungs", "end");
+    }
+
+    for (const auto& p : symtable) {
+        auto entry = p.second;
+
+        if (std::isdigit(entry.var_name[0])) {
+            // TODO: Create additional field in sym table indicating constant
+            continue;
+        }
+
+        // Declare variables (both current and next (n_))
+        std::sprintf(buf,
+                     "%s %s;\n%s n_%s;",
+                     entry.pin_type_str().c_str(),
+                     entry.var_name.c_str(),
+                     entry.pin_type_str().c_str(),
+                     entry.var_name.c_str());
+        outputter.append("addresses", buf);
+
+        // On reset
+        std::sprintf(buf,
+                     "%s <= %d'b0;",
+                     entry.var_name.c_str(),
+                     entry.width);
+        outputter.append("reset_addresses", buf);
+
+        // Update to new address
+        std::sprintf(buf,
+                     "%s <= n_%s;",
+                     entry.var_name.c_str(),
+                     entry.var_name.c_str());
+        outputter.append("update_addresses", buf);
+    }
 }
 
-inline Outputter&
-NRoot::to_dot(Outputter& outputter) const {
-    // TODO: Implement me!
-    return outputter;
+inline std::string
+NRoot::to_dot(Outputter& outputter, const SymTable& symtable) const {
+    for (auto& rung : rungs) {
+        rung->to_dot(outputter, symtable);
+    }
+    return "Sorry, unimplemented";
 }
 
 #endif /* end of include guard */

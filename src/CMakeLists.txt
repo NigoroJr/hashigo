@@ -13,11 +13,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(L5XParser SHARED ${CMAKE_CURRENT_SOURCE_DIR}/L5XParser.cpp)
 add_library(SymTable SHARED ${CMAKE_CURRENT_SOURCE_DIR}/SymTable.cpp)
+add_library(Inst2Verilog SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Inst2Verilog.cpp)
+add_library(Block2Verilog SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Block2Verilog.cpp)
 add_library(Outputter SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Outputter.cpp)
 
 add_executable(hashigo main.cpp
     L5XParser
     SymTable
+    Inst2Verilog
+    Block2Verilog
     Outputter
     ${BISON_HashigoParser_OUTPUTS}
     ${FLEX_HashigoLexer_OUTPUTS})

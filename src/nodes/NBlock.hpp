@@ -5,8 +5,12 @@
 #include "NInstruction.hpp"
 #include "NAddress.hpp"
 #include "SymTable.h"
+#include "Inst2Verilog.h"
+#include "Outputter.h"
 
+#include <cstdio>
 #include <vector>
+#include <string>
 
 struct NBlock : public NBlockish {
     /* Constructors, Destructor, and Assignment operators {{{ */
@@ -38,6 +42,15 @@ struct NBlock : public NBlockish {
     virtual SymTable&
     populate_symtable(SymTable& symtable) const override;
 
+    virtual std::string
+    to_verilog(const SymTable& symtable) const override;
+
+    virtual std::string
+    to_dot(Outputter& outputter, const SymTable& symtable) const override;
+
+    virtual bool
+    is_output() const override;
+
     NInstruction* inst;
     std::vector<NAddress*> addresses;
 };
@@ -46,7 +59,7 @@ struct NBlock : public NBlockish {
 // Default constructor
 inline
 NBlock::NBlock()
-    : NBlockish{0}
+    : NBlockish{NBlockish::BlockType::BLOCK, 0}
     , inst{nullptr}
     , addresses{nullptr}
 {
@@ -56,7 +69,7 @@ inline
 NBlock::NBlock(const NInstruction* inst,
                const std::vector<NAddress*>& addresses,
                const unsigned rung_count)
-    : NBlockish{rung_count}
+    : NBlockish{NBlockish::BlockType::BLOCK, rung_count}
     , inst{const_cast<NInstruction*>(inst)}
     , addresses{addresses}
 {
@@ -109,8 +122,8 @@ inline SymTable&
 NBlock::populate_symtable(SymTable& symtable) const {
     for (unsigned i = 0; i < addresses.size(); i++) {
         // Check for output address indices
-        auto type = (SymTable::OUTPUT_ADDRS.count(inst->name) != 0
-                     && SymTable::OUTPUT_ADDRS.at(inst->name).count(i) != 0)
+        auto type = (OUTPUT_INSTS.count(inst->name) != 0
+                     && OUTPUT_INSTS.at(inst->name).count(i) != 0)
             ? SymTable::IOType::OUT
             : SymTable::IOType::IN;
 
@@ -120,13 +133,35 @@ NBlock::populate_symtable(SymTable& symtable) const {
         // TODO: adjust bus width according to constants used?
     }
 
-    // TODO: intermediate wires??? should this be in the symtable? (like the ones used for timers)
-    // TODO: Master (for master, maybe add a MASTER instruction
-    if (inst->name == "TON" || inst->name == "TOF") {
-        // We need intermediate pins for Verilog
-    }
+    // TODO: should intermediate `wire's be in the symtable? (like the ones used for timers)
 
     return symtable;
+}
+
+inline std::string
+NBlock::to_verilog(const SymTable& symtable) const {
+    // Convert to Verilog
+    return Inst2Verilog(inst)(addresses, symtable);
+}
+
+inline std::string
+NBlock::to_dot(Outputter& outputter, const SymTable& symtable) const {
+    char buf[512];
+    // TODO: element count
+    std::sprintf(buf, "Block_%d_%d", rung_count, 42);
+    outputter.append("nodes", buf);
+    // TODO: add inst and addresses
+    // outputter.append("nodes", node_name.str());
+    // outputter.append("edges",
+    // TODO: Implement me!
+    ignore_unused_warnings(outputter);
+    ignore_unused_warnings(symtable);
+    return "Sorry, unimplemented";
+}
+
+inline bool
+NBlock::is_output() const {
+    return OUTPUT_INSTS.count(inst->name) != 0;
 }
 
 #endif /* end of include guard */

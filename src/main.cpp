@@ -89,15 +89,18 @@ main(const int argc, char* const argv[]) {
 
     SymTable s;
     root->populate_symtable(s);
+    for (auto& rung : root->rungs) {
+        rung->populate_in_out();
+    }
 
     Outputter verilog_outputter;
     verilog_outputter.append("program_name", filename);
-    root->to_verilog(verilog_outputter);
+    root->to_verilog(verilog_outputter, s);
     verilog_outputter.finilize(std::string{argv[2]} + "/verilog/Main.v", "foo.v");
 
     Outputter dot_outputter;
     dot_outputter.append("program_name", filename);
-    root->to_dot(dot_outputter);
+    root->to_dot(dot_outputter, s);
     dot_outputter.finilize(std::string{argv[2]} + "/dot/ast.dot", "foo.dot");
 
     std::fclose(yyin);

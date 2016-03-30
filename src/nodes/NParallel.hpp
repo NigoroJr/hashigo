@@ -3,7 +3,11 @@
 
 #include "NBlockish.hpp"
 #include "SymTable.h"
+#include "Outputter.h"
 
+#include <algorithm>
+#include <string>
+#include <sstream>
 #include <vector>
 
 struct NParallel : public NBlockish {
@@ -34,6 +38,15 @@ struct NParallel : public NBlockish {
     virtual SymTable&
     populate_symtable(SymTable& symtable) const override;
 
+    virtual std::string
+    to_verilog(const SymTable& symtable) const override;
+
+    virtual std::string
+    to_dot(Outputter& outputter, const SymTable& symtable) const override;
+
+    virtual bool
+    is_output() const override;
+
     std::vector<NBlockish*> blocks;
 };
 
@@ -41,14 +54,14 @@ struct NParallel : public NBlockish {
 // Default constructor
 inline
 NParallel::NParallel()
-    : NBlockish{0}
+    : NBlockish{NBlockish::BlockType::PARALLEL, 0}
     , blocks{std::vector<NBlockish*>{}}
 {
 }
 
 inline
 NParallel::NParallel(const unsigned rung_count)
-    : NBlockish{rung_count}
+    : NBlockish{NBlockish::BlockType::PARALLEL, rung_count}
     , blocks{std::vector<NBlockish*>{}}
 {
 }
@@ -98,6 +111,39 @@ NParallel::populate_symtable(SymTable& symtable) const {
         block->populate_symtable(symtable);
     }
     return symtable;
+}
+
+inline std::string
+NParallel::to_verilog(const SymTable& symtable) const {
+    std::ostringstream oss;
+    oss << "(";
+    for (unsigned i = 0; i < blocks.size(); i++) {
+        oss << blocks[i]->to_verilog(symtable);
+
+        // Join with | because this is a parallel connection
+        if (i != blocks.size() - 1) {
+            oss << " | ";
+        }
+    }
+    oss << ")" << std::flush;
+
+    return oss.str();
+}
+
+inline std::string
+NParallel::to_dot(Outputter& outputter, const SymTable& symtable) const {
+    // TODO: Implement me!
+    ignore_unused_warnings(outputter);
+    ignore_unused_warnings(symtable);
+    return "Sorry, unimplemented";
+}
+
+inline bool
+NParallel::is_output() const {
+    auto l = [](const NBlockish* b) {
+        return b->is_output();
+    };
+    return std::all_of(blocks.begin(), blocks.end(), l);
 }
 
 #endif /* end of include guard */
