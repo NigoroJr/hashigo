@@ -121,7 +121,7 @@ Block2Verilog::TON(const inputs_t& inputs,
     oss << "n_" << en << " <= ";
     oss << inputs->to_verilog(symtable) << ";" << std::endl;
     // Use wire from the Timer Verilog module
-    oss << "n_" << dn << " <= " << dn << "_wire" << ";";
+    oss << "n_" << dn << " <= " << "n_" << dn << "_wire" << ";";
 
     return oss.str();
 }
