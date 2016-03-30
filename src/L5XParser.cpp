@@ -192,9 +192,11 @@ L5XParser::replace_timers(const std::string& rungs) const {
         std::regex re{"(TO[NF])\\(" + t.name + "(,?[^)]*)\\)"};
 
         auto n = t.name.c_str();
+        // TODO: What if address is used rather than constant?
+        auto pre = t.PRE;
         std::sprintf(buf,
-                     "$1(%s, %s.PRE, %s.ACC, %s.EN, %s.TT, %s.DN)",
-                     n, n, n, n, n, n);
+                     "$1(%s, %d, %s.ACC, %s.EN, %s.TT, %s.DN)",
+                     n, pre, n, n, n, n);
         std::string to_replace{buf};
 
         to_ret = std::regex_replace(to_ret, re, to_replace);
