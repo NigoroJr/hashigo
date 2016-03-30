@@ -336,9 +336,10 @@ NRung::timer_module_verilog(const NBlock* output,
 
     // Stamp out module
     char buf[512];
+    // TODO: method to append _m for modules
     std::sprintf(buf,
                  "Timer %s(clk, rst, tick, %s, %s, %s);",
-                 timer_name.c_str(),
+                 (timer_name + "_m").c_str(),
                  preset.c_str(),
                  enable_addr.c_str(),
                  wire_name.c_str());
