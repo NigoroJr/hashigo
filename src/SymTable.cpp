@@ -143,6 +143,7 @@ SymTable::operator[](const std::string& address) {
     // TODO: Are these default values ok?
     symtable[address] = SymTable::Entry{
         normalize_name(address),
+        // TODO: adjust size
         32,
         SymTable::PinType::REG,
         SymTable::IOType::IN

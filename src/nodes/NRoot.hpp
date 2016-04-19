@@ -124,12 +124,24 @@ NRoot::to_verilog(Outputter& outputter, const SymTable& symtable) const {
         }
 
         // Declare variables (both current and next (n_))
-        std::sprintf(buf,
-                     "%s %s;\n%s n_%s;",
-                     entry.pin_type_str().c_str(),
-                     entry.var_name.c_str(),
-                     entry.pin_type_str().c_str(),
-                     entry.var_name.c_str());
+        if (entry.width == 1) {
+            std::sprintf(buf,
+                        "%s %s;\n%s n_%s;",
+                        entry.pin_type_str().c_str(),
+                        entry.var_name.c_str(),
+                        entry.pin_type_str().c_str(),
+                        entry.var_name.c_str());
+        }
+        else {
+            std::sprintf(buf,
+                        "%s [%d:0]%s;\n%s [%d:0]n_%s;",
+                        entry.pin_type_str().c_str(),
+                        entry.width - 1,
+                        entry.var_name.c_str(),
+                        entry.pin_type_str().c_str(),
+                        entry.width - 1,
+                        entry.var_name.c_str());
+        }
         outputter.append("addresses", buf);
 
         // On reset
