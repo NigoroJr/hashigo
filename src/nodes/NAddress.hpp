@@ -39,32 +39,37 @@ inline
 NAddress::NAddress()
     : Node{0}
     , name{}
-{ }
+{
+}
 
 inline
 NAddress::NAddress(const std::string& name, const unsigned rung_count)
     : Node{rung_count}
     , name{name}
-{ }
+{
+}
 
 // Copy constructor
 inline
 NAddress::NAddress(const NAddress& other)
     : Node{other}
     , name{other.name}
-{ }
+{
+}
 
 // Move constructor
 inline
 NAddress::NAddress(NAddress&& other)
     : Node{other}
     , name{std::move(other.name)}
-{ }
+{
+}
 
 // Destructor
 inline
 NAddress::~NAddress()
-{ }
+{
+}
 
 // Assignment operator
 inline NAddress&

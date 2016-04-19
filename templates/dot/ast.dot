@@ -1,0 +1,6 @@
+digraph ${program_name} {
+    {
+        ${nodes}
+    }
+    ${edges}
+}
