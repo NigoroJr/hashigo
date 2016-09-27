@@ -7,9 +7,12 @@
 A compiler to translate Ladder Logic to Verilog HDL.
 
 ## Description
-TODO
+The objectives of this project is to convert ladder logic to a hardware
+description language (HDL) that can be used to program an FPGA. This is a
+proof of concept that an FPGA can provide the benefits of relay's parallel
+logic alongside the flexibility of reprogramming allowed by the PLC.
 
-## Installing
+## Build and Run
 ### Requirements
 - C++ compiler that supports C++11
 - CMake 2.8 or above
@@ -17,8 +20,7 @@ TODO
 - bison
 - flex
 
-### Testing
-- Boost.Test
+### Commands
 
 ```console
 $ git clone https://github.com/NigoroJr/hashigo
