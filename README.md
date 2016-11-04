@@ -27,7 +27,7 @@ $ git clone https://github.com/NigoroJr/hashigo
 $ cd hashigo/build
 $ cmake ..
 $ make
-$ ./src/hashigo <L5X file>
+$ ./src/hashigo <L5X file> <template directory>
 ```
 
 ## Credits

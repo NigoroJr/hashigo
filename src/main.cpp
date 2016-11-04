@@ -63,6 +63,11 @@ open_hshg(const std::string& filepath) {
 
 int
 main(const int argc, char* const argv[]) {
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <L5X file> <template dir>" << std::endl;
+        return 1;
+    }
+
     yyin = stdin;
 
     std::string filepath{argv[1]};
