@@ -13,6 +13,10 @@ proof of concept that an FPGA can provide the benefits of relay's parallel
 logic alongside the flexibility of reprogramming allowed by the PLC.
 
 ## Build and Run
+
+Ubuntu 16.04 is the recommenned environment to run this program. Development
+was also done on macOS.
+
 ### Requirements
 - C++ compiler that supports C++11
 - CMake 2.8 or above
@@ -20,14 +24,20 @@ logic alongside the flexibility of reprogramming allowed by the PLC.
 - bison
 - flex
 
-### Commands
+### Running
+
+```
+Usage:
+  hashigo <L5X file> <template directory>
+```
 
 ```console
+$ sudo apt-get install bison flex libpugixml-dev
 $ git clone https://github.com/NigoroJr/hashigo
 $ cd hashigo/build
 $ cmake ..
 $ make
-$ ./src/hashigo <L5X file> <template directory>
+$ ./src/hashigo ../samples/CarWash.L5X ../templates/
 ```
 
 ## Credits
