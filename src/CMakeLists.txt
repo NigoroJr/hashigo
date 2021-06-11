@@ -1,9 +1,6 @@
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
-find_package(PugiXML REQUIRED)
+find_package(pugixml REQUIRED)
 
 BISON_TARGET(HashigoParser parse.y ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp)
 FLEX_TARGET(HashigoLexer lex.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cpp)
@@ -26,4 +23,4 @@ add_executable(hashigo main.cpp
     ${BISON_HashigoParser_OUTPUTS}
     ${FLEX_HashigoLexer_OUTPUTS})
 
-target_link_libraries(hashigo ${PUGIXML_LIBRARIES})
+target_link_libraries(hashigo pugixml::pugixml)
